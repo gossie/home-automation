@@ -19,9 +19,8 @@ public class PowerOutletServiceApplication {
 	@Bean
 	public CommandLineRunner initializeTestData(PowerOutletRepository repository) {
 		return args -> {
-			PowerOutlet one = new PowerOutlet();
+			PowerOutlet one = new PowerOutlet(null, true);
 			PowerOutlet two = new PowerOutlet();
-			two.setStatus(true);
 			repository.saveAll(Arrays.asList(one, two));
 		};
 	}

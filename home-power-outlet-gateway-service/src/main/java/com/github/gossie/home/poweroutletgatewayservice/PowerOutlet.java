@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class PowerOutlet {
 
-    private Long id;
-    private boolean status;
+    private boolean enabled;
 }

@@ -19,8 +19,8 @@ public class PowerOutletController {
         return powerOutletRepository.findAll();
     }
 
-    @GetMapping(value = "/power-outlets", params = {"status"})
-    public List<PowerOutlet> getPowerOutletsByStatus(@RequestParam boolean status) {
-        return powerOutletRepository.findByStatus(status);
+    @GetMapping(value = "/power-outlets", params = {"enabled"})
+    public List<PowerOutlet> getPowerOutletsByStatus(@RequestParam boolean enabled) {
+        return powerOutletRepository.findByEnabled(enabled);
     }
 }

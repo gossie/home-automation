@@ -26,7 +26,7 @@ public class PowerOutletController {
 
     @GetMapping(path = "/status")
     @HystrixCommand(fallbackMethod = "determineDefaultPowerOutlets")
-    public List<Boolean> getPowerOutlets() {
+    public List<PowerOutlet> getPowerOutlets() {
         URI uri = discoveryClient.getInstances("power-outlet-service").get(0).getUri();
 
         ParameterizedTypeReference<List<PowerOutlet>> ptr = new ParameterizedTypeReference<List<PowerOutlet>>() {};
@@ -34,11 +34,10 @@ public class PowerOutletController {
         return restTemplate.exchange("http://power-outlet-service/power-outlets", HttpMethod.GET, null, ptr)
                 .getBody()
                 .stream()
-                .map(PowerOutlet::isStatus)
                 .collect(Collectors.toList());
     }
 
-    private List<Boolean> determineDefaultPowerOutlets() {
+    private List<PowerOutlet> determineDefaultPowerOutlets() {
         return Collections.emptyList();
     }
 }
