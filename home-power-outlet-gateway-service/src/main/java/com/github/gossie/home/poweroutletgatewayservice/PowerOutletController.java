@@ -31,7 +31,7 @@ public class PowerOutletController {
 
         ParameterizedTypeReference<List<PowerOutlet>> ptr = new ParameterizedTypeReference<List<PowerOutlet>>() {};
 
-        return restTemplate.exchange("http://power-outlet-service/power-outlets", HttpMethod.GET, null, ptr)
+        return restTemplate.exchange("http://power-outlet-service/powerOutlets", HttpMethod.GET, null, ptr)
                 .getBody()
                 .stream()
                 .collect(Collectors.toList());

@@ -19,4 +19,5 @@ public class PowerOutlet {
     private Long id;
 
     private boolean enabled;
+    private Long roomId;
 }
