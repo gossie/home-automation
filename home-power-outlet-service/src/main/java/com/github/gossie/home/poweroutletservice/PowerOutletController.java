@@ -1,16 +1,26 @@
 package com.github.gossie.home.poweroutletservice;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 public class PowerOutletController {
 
-    @GetMapping("/power-outlets")
+    private final PowerOutletRepository powerOutletRepository;
+
+    @GetMapping(value = "/power-outlets")
     public List<PowerOutlet> getPowerOutlets() {
-        return Collections.emptyList();
+        return powerOutletRepository.findAll();
+    }
+
+    @GetMapping(value = "/power-outlets", params = {"status"})
+    public List<PowerOutlet> getPowerOutletsByStatus(@RequestParam boolean status) {
+        return powerOutletRepository.findByStatus(status);
     }
 }
