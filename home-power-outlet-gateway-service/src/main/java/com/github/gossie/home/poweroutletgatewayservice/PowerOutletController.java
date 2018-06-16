@@ -1,9 +1,9 @@
 package com.github.gossie.home.poweroutletgatewayservice;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,21 +24,26 @@ public class PowerOutletController {
     private final DiscoveryClient discoveryClient;
     private final RestTemplate restTemplate;
 
-    @GetMapping
+    @GetMapping(path = "/status")
     @HystrixCommand(fallbackMethod = "determineDefaultPowerOutlets")
-    public List<PowerOutlet> getPowerOutlets() {
+    public List<Boolean> getPowerOutlets() {
         URI uri = discoveryClient.getInstances("power-outlet-service").get(0).getUri();
 
         ParameterizedTypeReference<List<PowerOutlet>> ptr = new ParameterizedTypeReference<List<PowerOutlet>>() {};
 
+//        return restTemplate.exchange("http://power-outlet-service/power-outlets", HttpMethod.GET, null, ptr)
+//                .getBody()
+//                .stream()
+//                .map(PowerOutlet::isStatus)
+//                .collect(Collectors.toList());
         return restTemplate.exchange(uri.toString() + "/power-outlets", HttpMethod.GET, null, ptr)
-            .getBody();
+            .getBody()
+            .stream()
+            .map(PowerOutlet::isStatus)
+            .collect(Collectors.toList());
     }
 
-    private List<PowerOutlet> determineDefaultPowerOutlets() {
-        PowerOutlet po = new PowerOutlet();
-        po.setId(1L);
-        po.setStatus(true);
-        return Collections.singletonList(po);
+    private List<Boolean> determineDefaultPowerOutlets() {
+        return Collections.emptyList();
     }
 }
