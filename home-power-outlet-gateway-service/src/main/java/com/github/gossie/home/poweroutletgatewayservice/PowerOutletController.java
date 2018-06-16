@@ -31,16 +31,11 @@ public class PowerOutletController {
 
         ParameterizedTypeReference<List<PowerOutlet>> ptr = new ParameterizedTypeReference<List<PowerOutlet>>() {};
 
-//        return restTemplate.exchange("http://power-outlet-service/power-outlets", HttpMethod.GET, null, ptr)
-//                .getBody()
-//                .stream()
-//                .map(PowerOutlet::isStatus)
-//                .collect(Collectors.toList());
-        return restTemplate.exchange(uri.toString() + "/power-outlets", HttpMethod.GET, null, ptr)
-            .getBody()
-            .stream()
-            .map(PowerOutlet::isStatus)
-            .collect(Collectors.toList());
+        return restTemplate.exchange("http://power-outlet-service/power-outlets", HttpMethod.GET, null, ptr)
+                .getBody()
+                .stream()
+                .map(PowerOutlet::isStatus)
+                .collect(Collectors.toList());
     }
 
     private List<Boolean> determineDefaultPowerOutlets() {
