@@ -1,7 +1,6 @@
 package com.github.gossie.home.poweroutletgatewayservice;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -14,18 +13,14 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +39,7 @@ public class PowerOutletController {
         executorService = Executors.newFixedThreadPool(4);
     }
 
-    @GetMapping(path = "/status")
+    @GetMapping
     public List<PowerOutlet> getPowerOutlets() {
         ResponseEntity<Resources<Resource<PowerOutlet>>> response = powerOutletService.determinePowerOutlets();
         Collection<Resource<PowerOutlet>> content = response.getBody().getContent();
@@ -54,8 +49,6 @@ public class PowerOutletController {
                 .map(Resource::getContent)
                 .collect(Collectors.toList());
     }
-
-
 
     private Map<String, Room> determineRooms(Collection<Resource<PowerOutlet>> powerOutlets) {
         return powerOutlets.stream()
@@ -79,6 +72,7 @@ public class PowerOutletController {
     @RequiredArgsConstructor
     @Getter
     private static class Entry<V> {
+
         private final String key;
         private final V value;
     }
