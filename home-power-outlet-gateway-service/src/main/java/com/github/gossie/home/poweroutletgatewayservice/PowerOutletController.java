@@ -1,19 +1,32 @@
 package com.github.gossie.home.poweroutletgatewayservice;
 
-import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import javax.annotation.PostConstruct;
+
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -21,23 +34,52 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(path = "power-outlets")
 public class PowerOutletController {
 
-    private final DiscoveryClient discoveryClient;
-    private final RestTemplate restTemplate;
+    private final PowerOutletService powerOutletService;
+    private final RoomService roomService;
+
+    private ExecutorService executorService;
+
+    @PostConstruct
+    public void init() {
+        executorService = Executors.newFixedThreadPool(4);
+    }
 
     @GetMapping(path = "/status")
-    @HystrixCommand(fallbackMethod = "determineDefaultPowerOutlets")
     public List<PowerOutlet> getPowerOutlets() {
-        URI uri = discoveryClient.getInstances("power-outlet-service").get(0).getUri();
-
-        ParameterizedTypeReference<List<PowerOutlet>> ptr = new ParameterizedTypeReference<List<PowerOutlet>>() {};
-
-        return restTemplate.exchange("http://power-outlet-service/powerOutlets", HttpMethod.GET, null, ptr)
-                .getBody()
-                .stream()
+        ResponseEntity<Resources<Resource<PowerOutlet>>> response = powerOutletService.determinePowerOutlets();
+        Collection<Resource<PowerOutlet>> content = response.getBody().getContent();
+        Map<String, Room> rooms = determineRooms(content);
+        return content.stream()
+                .peek(resource -> resource.getContent().setRoom(rooms.get(resource.getLink("room").getHref())))
+                .map(Resource::getContent)
                 .collect(Collectors.toList());
     }
 
-    private List<PowerOutlet> determineDefaultPowerOutlets() {
-        return Collections.emptyList();
+
+
+    private Map<String, Room> determineRooms(Collection<Resource<PowerOutlet>> powerOutlets) {
+        return powerOutlets.stream()
+                .map(resource -> resource.getLink("room"))
+                .filter(Objects::nonNull)
+                .map(Link::getHref)
+                .distinct()
+                .map(href -> new Entry<Callable<Room>>(href, () -> roomService.determineRoom(href)))
+                .map(entry -> new Entry<>(entry.getKey(), executorService.submit(entry.getValue())))
+                .collect(Collectors.toMap(Entry::getKey, this::resolveFuture));
+    }
+
+    private Room resolveFuture(Entry<Future<Room>> entry) {
+        try {
+            return entry.getValue().get();
+        } catch(InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @RequiredArgsConstructor
+    @Getter
+    private static class Entry<V> {
+        private final String key;
+        private final V value;
     }
 }

@@ -1,12 +1,13 @@
 package com.github.gossie.home.poweroutletgatewayservice;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class PowerOutlet {
+public class Room {
 
-    private boolean enabled;
-    private Room room;
+    private String name;
 }

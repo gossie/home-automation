@@ -21,7 +21,11 @@ public class PowerOutletServiceApplication {
 		return args -> {
 			PowerOutlet one = new PowerOutlet(null, true, 1L);
 			PowerOutlet two = new PowerOutlet(null, false, 1L);
-			repository.saveAll(Arrays.asList(one, two));
+			PowerOutlet three = new PowerOutlet(null, true, 2L);
+			PowerOutlet four = new PowerOutlet(null, true, 2L);
+			PowerOutlet five = new PowerOutlet(null, true, 3L);
+			PowerOutlet six = new PowerOutlet(null, true, 4L);
+			repository.saveAll(Arrays.asList(one, two, three, four, five, six));
 		};
 	}
 }
