@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.gossie</groupId>
-	<artifactId>home-automation-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.github.gossie</groupId>
+    <artifactId>home-automation-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>home-automation-parent</name>
-	<description></description>
+    <name>home-automation-parent</name>
+    <description></description>
 
-	<modules>
-	    <module>home-configuration-service</module>
-	    <module>home-registry-service</module>
-	    <module>home-monitoring-service</module>
-		<module>home-room-service</module>
-		<module>home-room-gateway-service</module>
-	    <module>home-power-outlet-service</module>
-	    <module>home-power-outlet-gateway-service</module>
-	    <module>home-light-service</module>
-	</modules>
-
+    <modules>
+        <module>home-configuration-service</module>
+        <module>home-registry-service</module>
+        <module>home-monitoring-service</module>
+        <module>home-room-service</module>
+        <module>home-room-gateway-service</module>
+        <module>home-power-outlet-service</module>
+        <module>home-power-outlet-gateway-service</module>
+        <module>home-light-service</module>
+    </modules>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <configuration>
+                    <sourceEncoding>UTF-8</sourceEncoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <configuration>
+                    <format>xml</format>
+                    <maxmem>256m</maxmem>
+                    <!-- aggregated reports for multi-module projects -->
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
