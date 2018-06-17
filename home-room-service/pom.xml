@@ -23,7 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Finchley.RC2</spring-cloud.version>
-        <docker.image.prefix>home-automation</docker.image.prefix>
+        <docker.image.prefix>gossie</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -88,18 +88,27 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
-        <plugin>
-            <groupId>com.spotify</groupId>
-            <artifactId>dockerfile-maven-plugin</artifactId>
-            <version>1.3.6</version>
-            <configuration>
-                <repository>${docker.image.prefix}/${project.artifactId}</repository>
-                <buildArgs>
-                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                </buildArgs>
-            </configuration>
-        </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.3.6</version>
+                <configuration>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+                <executions>
+                	<execution>
+                		<id>default</id>
+                		<phase>install</phase>
+                		<goals>
+                			<goal>build</goal>
+                		</goals>
+                	</execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 
 	<repositories>

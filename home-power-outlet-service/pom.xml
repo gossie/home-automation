@@ -23,7 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Finchley.RC2</spring-cloud.version>
-        <docker.image.prefix>home-automation</docker.image.prefix>
+        <docker.image.prefix>gossie</docker.image.prefix>
 	</properties>
 
 	<dependencies>
