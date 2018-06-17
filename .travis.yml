@@ -4,4 +4,4 @@ jdk:
 script:
   - mvn clean verify
 after_success:
-  - mvn cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
+  - mvn clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
