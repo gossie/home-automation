@@ -98,6 +98,7 @@
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
+                <!--
                 <executions>
                 	<execution>
                 		<id>default</id>
@@ -107,6 +108,7 @@
                 		</goals>
                 	</execution>
                 </executions>
+                -->
             </plugin>
         </plugins>
 	</build>
