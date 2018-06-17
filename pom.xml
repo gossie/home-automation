@@ -16,6 +16,7 @@
 	    <module>home-registry-service</module>
 	    <module>home-monitoring-service</module>
 		<module>home-room-service</module>
+		<module>home-room-gateway-service</module>
 	    <module>home-power-outlet-service</module>
 	    <module>home-power-outlet-gateway-service</module>
 	    <module>home-light-service</module>
