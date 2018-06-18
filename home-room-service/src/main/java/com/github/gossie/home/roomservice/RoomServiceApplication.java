@@ -5,16 +5,15 @@ import java.util.Arrays;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 @EnableEurekaClient
 @SpringBootApplication
-public class HomeRoomServiceApplication {
+public class RoomServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HomeRoomServiceApplication.class, args);
+		SpringApplication.run(RoomServiceApplication.class, args);
 	}
 
 	@Bean

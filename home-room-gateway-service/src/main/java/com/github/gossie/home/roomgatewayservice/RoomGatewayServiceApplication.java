@@ -13,10 +13,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableCircuitBreaker
 @EnableZuulProxy
 @SpringBootApplication
-public class HomeRoomGatewayServiceApplication {
+public class RoomGatewayServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HomeRoomGatewayServiceApplication.class, args);
+		SpringApplication.run(RoomGatewayServiceApplication.class, args);
 	}
 
 	@LoadBalanced

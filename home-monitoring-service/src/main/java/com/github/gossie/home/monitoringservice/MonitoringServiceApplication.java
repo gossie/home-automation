@@ -8,9 +8,9 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 @EnableDiscoveryClient
 @EnableHystrixDashboard
 @SpringBootApplication
-public class HomeMonitoringServiceApplication {
+public class MonitoringServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HomeMonitoringServiceApplication.class, args);
+		SpringApplication.run(MonitoringServiceApplication.class, args);
 	}
 }

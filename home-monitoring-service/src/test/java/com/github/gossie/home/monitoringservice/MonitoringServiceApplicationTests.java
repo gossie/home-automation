@@ -1,4 +1,4 @@
-package com.github.gossie.home.roomgatewayservice;
+package com.github.gossie.home.monitoringservice;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HomeRoomGatewayServiceApplicationTests {
+public class MonitoringServiceApplicationTests {
 
 	@Test
 	public void contextLoads() {
