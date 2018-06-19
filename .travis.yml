@@ -3,5 +3,5 @@ jdk:
   - oraclejdk8
 script:
   - mvn --quiet clean verify
-after_success:
-  - mvn --quiet clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
+#after_success:
+#  - mvn --quiet clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
