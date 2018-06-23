@@ -1,18 +1,18 @@
 package com.github.gossie.home.roomservice;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.stereotype.Component;
+import org.springframework.integration.annotation.MessageEndpoint;
+import org.springframework.integration.annotation.ServiceActivator;
 
 @RequiredArgsConstructor
-//@Component
+@MessageEndpoint
 public class MessageHandler {
 
     private final RoomRepository roomRepository;
 
-    @StreamListener(Sink.INPUT)
-    public void handleRoom(Room room) {
-        roomRepository.save(room);
+    @ServiceActivator(inputChannel = Sink.INPUT)
+    public void handleRoom(String roomName) {
+        roomRepository.save(new Room(null, roomName));
     }
 }

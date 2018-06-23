@@ -9,9 +9,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.annotation.Bean;
+import org.springframework.integration.annotation.IntegrationComponentScan;
 
 @EnableEurekaClient
-//@EnableBinding(Sink.class)
+@EnableBinding(Sink.class)
+@IntegrationComponentScan
 @SpringBootApplication
 public class RoomServiceApplication {
 

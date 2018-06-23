@@ -4,10 +4,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpMethod;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class RoomService {
 
     private final RestTemplate restTemplate;
+    private final Source messageSource;
 
     @HystrixCommand(fallbackMethod = "determineDefaultNames")
     public List<String> determineRoomNames() {
@@ -34,5 +38,10 @@ public class RoomService {
 
     private List<String> determineDefaultNames() {
         return Collections.emptyList();
+    }
+
+    public void createRoom(final Room room) {
+        Message<String> message = MessageBuilder.withPayload(room.getName()).build();
+        messageSource.output().send(message);
     }
 }
