@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: power-outlet-service
+  cloud:
+    config:
+      uri: ${CONFIGURATION_HOST}:${CONFIGURATION_PORT}
+      fail-fast: true
+      retry:
+        initialInterval: 5000
+        maxInterval: 10000
+        maxAttempts: 10

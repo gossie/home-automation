@@ -3,53 +3,68 @@ services:
   rabbitmq:
     image: rabbitmq:management
     ports:
-    - "5672:5672"
-    - "15672:15672"
+      - "5672:5672"
+      - "15672:15672"
 
   configuration-service:
      build: ./home-configuration-service
      ports:
-     - 8888:8888
+       - 8888:8080
 
   registry-service:
      build: ./home-registry-service
      depends_on:
-     - configuration-service
+       - configuration-service
      ports:
-     - 8761:8761
+       - 8761:8080
+     environment:
+         - CONFIGURATION_HOST=http://configuration-service
+         - CONFIGURATION_PORT=8080
 
   monitoring-service:
      build: ./home-monitoring-service
      depends_on:
-     - configuration-service
-     - registry-service
+       - configuration-service
+       - registry-service
      ports:
-     - 9999:9999
+       - 9999:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
 
   light-service:
      build: ./home-light-service
      depends_on:
-     - configuration-service
-     - registry-service
+       - configuration-service
+       - registry-service
      ports:
-     - 8083:8083
+       - 8083:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
 
   room-service:
      build: ./home-room-service
      depends_on:
-     - configuration-service
-     - registry-service
-     - rabbitmq
+       - configuration-service
+       - registry-service
+       - rabbitmq
      ports:
-     - 8081:8081
+       - 8081:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
   room-gateway-service:
      build: ./home-room-gateway-service
      depends_on:
-     - configuration-service
-     - registry-service
-     - rabbitmq
+       - configuration-service
+       - registry-service
+       - rabbitmq
      ports:
-     - 7081:7081
+       - 7081:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
 
   power-outlet-service:
      build: ./home-room-service
@@ -57,12 +72,17 @@ services:
      - configuration-service
      - registry-service
      ports:
-     - 8082:8082
+     - 8082:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
   power-outlet-gateway-service:
      build: ./home-room-gateway-service
      depends_on:
      - configuration-service
      - registry-service
      ports:
-     - 7082:7082
-
+     - 7082:8080
+     environment:
+       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_PORT=8080
