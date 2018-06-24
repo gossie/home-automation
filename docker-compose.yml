@@ -69,20 +69,20 @@ services:
   power-outlet-service:
      build: ./home-power-outlet-service
      depends_on:
-     - configuration-service
-     - registry-service
+       - configuration-service
+       - registry-service
      ports:
-     - 8082:8080
+       - 8082:8080
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
   power-outlet-gateway-service:
      build: ./home-power-outlet-gateway-service
      depends_on:
-     - configuration-service
-     - registry-service
+       - configuration-service
+       - registry-service
      ports:
-     - 7082:8080
+       - 7082:8080
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
