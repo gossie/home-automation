@@ -67,7 +67,7 @@ services:
        - CONFIGURATION_PORT=8080
 
   power-outlet-service:
-     build: ./home-room-service
+     build: ./home-power-outlet-service
      depends_on:
      - configuration-service
      - registry-service
@@ -77,7 +77,7 @@ services:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
   power-outlet-gateway-service:
-     build: ./home-room-gateway-service
+     build: ./home-power-outlet-gateway-service
      depends_on:
      - configuration-service
      - registry-service
