@@ -23,7 +23,7 @@ public class TestClient {
 
             try {
                 System.out.println("send request to rooms");
-                return getRequest("http://lummerland.fritz.box:7081/rooms");
+                return getRequest("http://localhost:7081/rooms");
             } catch(IOException e) {
                 throw new RuntimeException(e);
             }
@@ -32,7 +32,7 @@ public class TestClient {
         Callable<String> powerOutlets = () -> {
             try {
                 System.out.println("send request to power outlets");
-                return getRequest("http://lummerland.fritz.box:7082/power-outlets");
+                return getRequest("http://localhost:7082/power-outlets");
             } catch(IOException e) {
                 throw new RuntimeException(e);
             }
