@@ -2,6 +2,6 @@ language: java
 jdk:
   - oraclejdk8
 script:
-  - mvn --quiet clean verify
-#after_success:
-#  - mvn --quiet clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
+  - ./mvnw clean verify
+after_success:
+  - ./mvnw clean cobertura:cobertura org.eluder.coveralls:coveralls-maven-plugin:report
