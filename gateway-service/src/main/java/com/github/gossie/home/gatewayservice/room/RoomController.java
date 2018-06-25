@@ -22,6 +22,6 @@ public class RoomController {
     @PostMapping
     public ResponseEntity<?> createRoom(@RequestBody final Room room) {
         roomService.createRoom(room);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.accepted().build();
     }
 }
