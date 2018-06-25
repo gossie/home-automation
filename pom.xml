@@ -12,14 +12,13 @@
     <description></description>
 
     <modules>
-        <module>home-configuration-service</module>
-        <module>home-registry-service</module>
-        <module>home-monitoring-service</module>
-        <module>home-room-service</module>
-        <module>home-room-gateway-service</module>
-        <module>home-power-outlet-service</module>
-        <module>home-power-outlet-gateway-service</module>
-        <module>home-light-service</module>
+        <module>configuration-service</module>
+        <module>registry-service</module>
+        <module>monitoring-service</module>
+        <module>room-service</module>
+        <module>power-outlet-service</module>
+        <module>light-service</module>
+        <module>gateway-service</module>
     </modules>
     
     <build>

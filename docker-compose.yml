@@ -7,12 +7,12 @@ services:
       - "15672:15672"
 
   configuration-service:
-     build: ./home-configuration-service
+     build: ./configuration-service
      ports:
        - 8888:8080
 
   registry-service:
-     build: ./home-registry-service
+     build: ./registry-service
      depends_on:
        - configuration-service
      ports:
@@ -22,7 +22,7 @@ services:
          - CONFIGURATION_PORT=8080
 
   monitoring-service:
-     build: ./home-monitoring-service
+     build: ./monitoring-service
      depends_on:
        - configuration-service
        - registry-service
@@ -33,18 +33,18 @@ services:
        - CONFIGURATION_PORT=8080
 
   light-service:
-     build: ./home-light-service
+     build: ./light-service
      depends_on:
        - configuration-service
        - registry-service
+       - rabbitmq
      ports:
        - 8083:8080
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
-
   room-service:
-     build: ./home-room-service
+     build: ./room-service
      depends_on:
        - configuration-service
        - registry-service
@@ -54,35 +54,26 @@ services:
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
-  room-gateway-service:
-     build: ./home-room-gateway-service
+  power-outlet-service:
+     build: ./power-outlet-service
      depends_on:
        - configuration-service
        - registry-service
        - rabbitmq
      ports:
-       - 7081:8080
-     environment:
-       - CONFIGURATION_HOST=http://configuration-service
-       - CONFIGURATION_PORT=8080
-
-  power-outlet-service:
-     build: ./home-power-outlet-service
-     depends_on:
-       - configuration-service
-       - registry-service
-     ports:
        - 8082:8080
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
-  power-outlet-gateway-service:
-     build: ./home-power-outlet-gateway-service
+
+  gateway-service:
+     build: ./gateway-service
      depends_on:
        - configuration-service
        - registry-service
+       - rabbitmq
      ports:
-       - 7082:8080
+       - 80:8080
      environment:
        - CONFIGURATION_HOST=http://configuration-service
        - CONFIGURATION_PORT=8080
