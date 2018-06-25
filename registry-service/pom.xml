@@ -113,7 +113,7 @@
 					<!--<include>**/*Test*.java</include>-->
 					<!--</includes>-->
 					<environmentVariables>
-						<CONFIGURATION_HOST>http://localhost</CONFIGURATION_HOST>
+						<CONFIGURATION_HOST>localhost</CONFIGURATION_HOST>
 						<CONFIGURATION_PORT>8888</CONFIGURATION_PORT>
 					</environmentVariables>
 				</configuration>

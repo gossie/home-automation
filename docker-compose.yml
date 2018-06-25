@@ -3,8 +3,8 @@ services:
   rabbitmq:
     image: rabbitmq:management
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 5672:5672
+      - 15672:15672
 
   configuration-service:
      build: ./configuration-service
@@ -18,7 +18,7 @@ services:
      ports:
        - 8761:8080
      environment:
-         - CONFIGURATION_HOST=http://configuration-service
+         - CONFIGURATION_HOST=configuration-service
          - CONFIGURATION_PORT=8080
 
   monitoring-service:
@@ -29,8 +29,10 @@ services:
      ports:
        - 9999:8080
      environment:
-       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_HOST=configuration-service
        - CONFIGURATION_PORT=8080
+       - REGISTRY_HOST=registry-service
+       - REGISTRY_PORT=8080
 
   light-service:
      build: ./light-service
@@ -41,8 +43,11 @@ services:
      ports:
        - 8083:8080
      environment:
-       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_HOST=configuration-service
        - CONFIGURATION_PORT=8080
+       - REGISTRY_HOST=registry-service
+       - REGISTRY_PORT=8080
+       - RABBITMQ_HOST=rabbitmq
   room-service:
      build: ./room-service
      depends_on:
@@ -52,8 +57,11 @@ services:
      ports:
        - 8081:8080
      environment:
-       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_HOST=configuration-service
        - CONFIGURATION_PORT=8080
+       - REGISTRY_HOST=registry-service
+       - REGISTRY_PORT=8080
+       - RABBITMQ_HOST=rabbitmq
   power-outlet-service:
      build: ./power-outlet-service
      depends_on:
@@ -63,8 +71,11 @@ services:
      ports:
        - 8082:8080
      environment:
-       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_HOST=configuration-service
        - CONFIGURATION_PORT=8080
+       - REGISTRY_HOST=registry-service
+       - REGISTRY_PORT=8080
+       - RABBITMQ_HOST=rabbitmq
 
   gateway-service:
      build: ./gateway-service
@@ -75,5 +86,8 @@ services:
      ports:
        - 80:8080
      environment:
-       - CONFIGURATION_HOST=http://configuration-service
+       - CONFIGURATION_HOST=configuration-service
        - CONFIGURATION_PORT=8080
+       - REGISTRY_HOST=registry-service
+       - REGISTRY_PORT=8080
+       - RABBITMQ_HOST=rabbitmq

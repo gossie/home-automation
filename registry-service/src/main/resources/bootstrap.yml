@@ -3,7 +3,7 @@ spring:
     name: registry-service
   cloud:
     config:
-      uri: ${CONFIGURATION_HOST}:${CONFIGURATION_PORT}
+      uri: http://${CONFIGURATION_HOST}:${CONFIGURATION_PORT}
       fail-fast: true
       retry:
         initialInterval: 5000
